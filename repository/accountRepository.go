@@ -13,7 +13,7 @@ type AccountRepository struct {
 }
 
 // create function provider
-func NewAccountRepository(db *sql.DB) InterfaceAccountRepository {
+func NewAccountRepository(db *sql.DB) *AccountRepository {
 	return &AccountRepository{
 		DB: db,
 	}

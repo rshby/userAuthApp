@@ -12,7 +12,7 @@ type UserRepository struct {
 }
 
 // create function provider
-func NewUserRepository(db *sql.DB) InterfaceUserRepository {
+func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{
 		db,
 	}

@@ -10,7 +10,7 @@ func ErrorMessageFromTag(input string) string {
 	case "required":
 		return "this field is required"
 	case "email":
-		return "please provide a valid email address"
+		return "Please provide a valid email address"
 	case "min":
 		return "Password should be at least 12 character long"
 	}

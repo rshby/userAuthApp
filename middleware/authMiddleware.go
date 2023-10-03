@@ -29,7 +29,7 @@ func (a *AuthMiddleware) Auth() gin.HandlerFunc {
 			response := dto.ApiMessage{
 				StatusCode: http.StatusUnauthorized,
 				Status:     "unauthorized",
-				Message:    "token not set",
+				Message:    "token not set. you cant query this endpoint before login",
 			}
 
 			c.JSON(http.StatusUnauthorized, &response)
@@ -48,7 +48,7 @@ func (a *AuthMiddleware) Auth() gin.HandlerFunc {
 			response := dto.ApiMessage{
 				StatusCode: http.StatusUnauthorized,
 				Status:     "unauthorized",
-				Message:    err.Error(),
+				Message:    "you cant query this endpoint before login",
 			}
 			c.JSON(http.StatusUnauthorized, &response)
 			c.Abort()
