@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 	"os"
 	"time"
 )
@@ -20,6 +21,8 @@ func ConnecDB() *sql.DB {
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		panic("error cant connect to database : " + err.Error())
+	} else {
+		log.Println("success connect to database")
 	}
 
 	db.SetMaxOpenConns(50)
