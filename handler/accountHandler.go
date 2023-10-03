@@ -54,6 +54,18 @@ func (a *AccountHandler) Register(c *gin.Context) {
 	// call function to insert in service
 	result, err := a.AccountService.InsertAccount(c, &request)
 	if err != nil {
+		// bad request
+		if strings.Contains(strings.ToLower(err.Error()), "already exist") {
+			response := dto.ApiMessage{
+				StatusCode: http.StatusBadRequest,
+				Status:     "bad request",
+				Message:    err.Error(),
+			}
+
+			c.JSON(http.StatusBadRequest, &response)
+			return
+		}
+
 		response := &dto.ApiMessage{
 			StatusCode: http.StatusInternalServerError,
 			Status:     "internal server error",

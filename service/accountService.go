@@ -37,6 +37,13 @@ func (a *AccountService) InsertAccount(ctx context.Context, request *dto.CreateA
 			tx.Rollback()
 		}
 	}()
+
+	_, err = a.AccountRepository.GetByEmail(ctx, tx, request.UserName)
+	if err == nil {
+		tx.Rollback()
+		return nil, errors.New("username already exist in database")
+	}
+
 	// hashedPassword
 	password, err := helper.HashPassword(request.Password)
 	if err != nil {
@@ -57,14 +64,8 @@ func (a *AccountService) InsertAccount(ctx context.Context, request *dto.CreateA
 		return nil, err
 	}
 
-	response, err := a.AccountRepository.GetByEmail(ctx, tx, result.UserName)
-	if err != nil {
-		tx.Rollback()
-		return nil, err
-	}
-
 	tx.Commit()
-	return response, nil
+	return result, nil
 }
 
 // method login

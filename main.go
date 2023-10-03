@@ -26,18 +26,24 @@ func main() {
 
 	// register repository layer
 	accountRepo := repository.NewAccountRepository(db)
+	userRepo := repository.NewUserRepository(db)
 
 	// register service layer
 	accountService := service.NewAccountService(db, accountRepo)
+	userService := service.NewUserService(db, userRepo, accountRepo)
 
 	// register handler layer
 	accountHandler := handler.NewAccountHandler(accountService)
+	userHandler := handler.NewUserHandler(userService)
 
 	r := gin.Default()
 	apiRoute := r.Group("/api/v1")
 
 	// create account routes
 	router.CreateAccountRoutes(apiRoute, accountHandler)
+
+	// create user routes
+	router.CreateUserRoutes(apiRoute, userHandler)
 
 	appPort := os.Getenv("APP_PORT")
 	r.Run(":" + appPort)
