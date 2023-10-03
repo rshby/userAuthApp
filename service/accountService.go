@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
+	"time"
 	"userAuthApp/helper"
 	"userAuthApp/model/dto"
 	"userAuthApp/model/entity"
@@ -15,7 +17,7 @@ type AccountService struct {
 }
 
 // create function provider
-func NewAccountService(db *sql.DB, accountRepo repository.InterfaceAccountRepository) *AccountService {
+func NewAccountService(db *sql.DB, accountRepo repository.InterfaceAccountRepository) InterfaceAccountService {
 	return &AccountService{
 		DB:                db,
 		AccountRepository: accountRepo,
@@ -78,4 +80,39 @@ func (a *AccountService) Login(ctx context.Context, request *dto.LoginRequest) (
 			tx.Rollback()
 		}
 	}()
+
+	// get data by email
+	account, err := a.AccountRepository.GetByEmail(ctx, tx, request.UserName)
+	if err != nil {
+		tx.Rollback()
+		return nil, errors.New("username not found in our database")
+	}
+
+	// cek password match
+	isMatch, err := helper.CheckPasword(account.Password, request.Password)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	// if password not match
+	if !isMatch {
+		tx.Rollback()
+		return nil, errors.New("password not match")
+	}
+
+	// generate token
+	token, err := helper.GenerateToken(account.UserName)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	response := dto.LoginResponse{
+		LoginAt: time.Now().Format("2006-01-02 15:04:05"),
+		Token:   token,
+	}
+
+	tx.Commit()
+	return &response, nil
 }
