@@ -7,9 +7,9 @@ import (
 )
 
 func TestJwtGenerateToken(t *testing.T) {
-	email := "reoshby@gmailcom"
+	id := 4
 
-	token, err := helper.GenerateToken(email)
+	token, err := helper.GenerateToken(id)
 	if err != nil {
 		log.Println(err)
 	}

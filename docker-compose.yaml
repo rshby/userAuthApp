@@ -1,0 +1,20 @@
+version: "3.8"
+
+networks:
+  auth-network:
+    name: auth-network
+    driver: bridge
+
+# list services
+services:
+  postgresdb:
+    image: postgres:alpine
+    container_name: postgresdb2
+    restart: always
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+        mode: host
+    networks:
+      - auth-network
