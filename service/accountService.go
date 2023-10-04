@@ -103,7 +103,7 @@ func (a *AccountService) Login(ctx context.Context, request *dto.LoginRequest) (
 	}
 
 	// generate token
-	token, err := helper.GenerateToken(account.UserName)
+	token, err := helper.GenerateToken(account.Id)
 	if err != nil {
 		tx.Rollback()
 		return nil, err

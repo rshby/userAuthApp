@@ -92,8 +92,8 @@ func (u *UserService) Getuser(ctx context.Context) (*dto.UserDetailResponse, err
 	}()
 
 	// get account by email
-	username := ctx.Value("username")
-	userDetail, err := u.UserRepository.GetUserDetail(ctx, tx, username.(string))
+	accountId := ctx.Value("account_id")
+	userDetail, err := u.UserRepository.GetUserDetail(ctx, tx, accountId.(int))
 	if err != nil {
 		return nil, err
 	}

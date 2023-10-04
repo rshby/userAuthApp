@@ -69,7 +69,7 @@ func (a *AuthMiddleware) Auth() gin.HandlerFunc {
 		}
 
 		// succes auth
-		c.Set("username", claims.UserName)
+		c.Set("account_id", claims.Id)
 		c.Next()
 	}
 }

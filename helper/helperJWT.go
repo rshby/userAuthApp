@@ -7,9 +7,9 @@ import (
 	"userAuthApp/model/auth"
 )
 
-func GenerateToken(email string) (string, error) {
+func GenerateToken(accountId int) (string, error) {
 	claims := &auth.JwtClaims{
-		UserName: email,
+		Id: accountId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "authAPP",
 			ExpiresAt: jwt.NewNumericDate(time.Now().Local().Add(1 * time.Hour)),

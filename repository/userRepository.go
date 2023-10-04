@@ -56,10 +56,10 @@ func (u *UserRepository) GetByAccountId(ctx context.Context, tx *sql.Tx, account
 }
 
 // method get user detail
-func (u *UserRepository) GetUserDetail(ctx context.Context, tx *sql.Tx, username string) (*dto.UserDetailResponse, error) {
-	query := "SELECT a.id, a.username, u.id, u.full_name, u.address FROM accounts a JOIN users u ON u.account_id=a.id WHERE a.username=$1"
+func (u *UserRepository) GetUserDetail(ctx context.Context, tx *sql.Tx, accountId int) (*dto.UserDetailResponse, error) {
+	query := "SELECT a.id, a.username, u.id, u.full_name, u.address FROM accounts a JOIN users u ON u.account_id=a.id WHERE a.id=$1"
 
-	row := tx.QueryRowContext(ctx, query, username)
+	row := tx.QueryRowContext(ctx, query, accountId)
 	if row.Err() != nil {
 		return nil, row.Err()
 	}

@@ -3,7 +3,7 @@ package auth
 import "github.com/golang-jwt/jwt/v5"
 
 type JwtClaims struct {
-	UserName         string               `json:"username,omitempty"`
+	Id               int                  `json:"id,omitempty"`
 	RegisteredClaims jwt.RegisteredClaims `json:"registered_claims,omitempty"`
 }
 
