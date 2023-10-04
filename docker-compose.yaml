@@ -9,7 +9,7 @@ networks:
 services:
   postgresdb:
     image: postgres:alpine
-    container_name: postgresdb2
+    container_name: postgres_db
     restart: always
     ports:
       - target: 5432
@@ -34,3 +34,4 @@ services:
       - auth-network
     depends_on:
       - postgresdb
+    restart: always
