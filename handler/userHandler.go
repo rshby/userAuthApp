@@ -80,12 +80,12 @@ func (u *UserHandler) GetUser(c *gin.Context) {
 	userDetail, err := u.UserService.Getuser(c)
 	if err != nil {
 		response := dto.ApiMessage{
-			StatusCode: http.StatusNotFound,
+			StatusCode: http.StatusInternalServerError,
 			Status:     "not found",
 			Message:    err.Error(),
 		}
 
-		c.JSON(http.StatusNotFound, &response)
+		c.JSON(http.StatusInternalServerError, &response)
 		return
 	}
 

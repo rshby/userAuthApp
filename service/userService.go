@@ -94,7 +94,7 @@ func (u *UserService) Getuser(ctx context.Context) (*dto.UserDetailResponse, err
 	accountId := ctx.Value("account_id")
 	userDetail, err := u.UserRepository.GetUserDetail(ctx, tx, accountId.(int))
 	if err != nil {
-		return nil, err
+		return nil, errors.New("you must insert your user profile first")
 	}
 
 	// success get user detail
