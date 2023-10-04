@@ -105,7 +105,7 @@ func (a *AccountService) Login(ctx context.Context, request *dto.LoginRequest) (
 	}
 
 	response := dto.LoginResponse{
-		LoginAt: time.Now().Format("2006-01-02 15:04:05"),
+		LoginAt: time.Now().Local().Format("2006-01-02 15:04:05"),
 		Token:   token,
 	}
 
