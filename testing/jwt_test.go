@@ -1,6 +1,7 @@
 package testing
 
 import (
+	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
 	"userAuthApp/helper"
@@ -8,11 +9,11 @@ import (
 
 func TestJwtGenerateToken(t *testing.T) {
 	id := 4
-
 	token, err := helper.GenerateToken(id)
 	if err != nil {
 		log.Println(err)
 	}
 
-	log.Println(token)
+	assert.Nil(t, err)
+	assert.NotNil(t, token)
 }

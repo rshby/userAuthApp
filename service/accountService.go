@@ -28,7 +28,6 @@ func NewAccountService(db *sql.DB, accountRepo repository.InterfaceAccountReposi
 func (a *AccountService) InsertAccount(ctx context.Context, request *dto.CreateAccountRequest) (*entity.Accounts, error) {
 	tx, err := a.DB.Begin()
 	if err != nil {
-		tx.Rollback()
 		return nil, err
 	}
 
@@ -51,14 +50,11 @@ func (a *AccountService) InsertAccount(ctx context.Context, request *dto.CreateA
 		return nil, err
 	}
 
-	// mapping data
-	newAccount := entity.Accounts{
+	// call function in repository
+	result, err := a.AccountRepository.InsertAccount(ctx, tx, &entity.Accounts{
 		UserName: request.UserName,
 		Password: password,
-	}
-
-	// call function in repository
-	result, err := a.AccountRepository.InsertAccount(ctx, tx, &newAccount)
+	})
 	if err != nil {
 		tx.Rollback()
 		return nil, err
@@ -72,7 +68,6 @@ func (a *AccountService) InsertAccount(ctx context.Context, request *dto.CreateA
 func (a *AccountService) Login(ctx context.Context, request *dto.LoginRequest) (*dto.LoginResponse, error) {
 	tx, err := a.DB.Begin()
 	if err != nil {
-		tx.Rollback()
 		return nil, err
 	}
 

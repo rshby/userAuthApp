@@ -28,7 +28,6 @@ func NewUserService(db *sql.DB, userRepo repository.InterfaceUserRepository, acc
 func (u *UserService) InsertUser(ctx context.Context, request *dto.CreateUserRequest) (*dto.CreateUserResponse, error) {
 	tx, err := u.DB.Begin()
 	if err != nil {
-		tx.Rollback()
 		return nil, err
 	}
 
